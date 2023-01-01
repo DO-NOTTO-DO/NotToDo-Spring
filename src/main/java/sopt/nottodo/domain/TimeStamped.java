@@ -1,4 +1,4 @@
-package nottodo.model;
+package sopt.nottodo.domain;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
