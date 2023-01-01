@@ -214,3 +214,7 @@ gradle-app.setting
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,intellij+all,java,gradle
+
+# 환경 변수
+src/main/resources/application-prod.yml
+src/main/resources/application-local.yml

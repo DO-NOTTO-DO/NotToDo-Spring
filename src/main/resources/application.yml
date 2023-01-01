@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/nottodo
+    username: nottodo
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
