@@ -4,14 +4,11 @@ import lombok.Getter;
 
 import javax.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-public class RecommendMission {
+public class RecommendAction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,11 +16,8 @@ public class RecommendMission {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "id")
-    private RecommendCategory recommendCategory;
+    private RecommendMission recommendMission;
 
     @Column(unique = true, nullable = false)
-    private String title;
-
-    @OneToMany(mappedBy = "recommendMission", cascade = CascadeType.ALL)
-    private List<RecommendAction> recommendActions = new ArrayList<>();
+    private String name;
 }
