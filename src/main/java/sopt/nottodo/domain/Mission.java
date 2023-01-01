@@ -26,6 +26,10 @@ public class Mission extends TimeStamped {
     @JoinColumn(name = "id")
     private User user;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "id")
+    private Situation situation;
+
     @Column
     private String title;
 
