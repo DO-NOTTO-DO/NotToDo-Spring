@@ -1,15 +1,14 @@
 package sopt.nottodo.domain;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
-@Setter
-@NoArgsConstructor
 public class RecommendCategory {
 
     @Id
@@ -21,4 +20,7 @@ public class RecommendCategory {
 
     @Column
     private String image;
+
+    @OneToMany(mappedBy = "recommendCategory", cascade = CascadeType.ALL)
+    private List<RecommendMission> recommendMissions = new ArrayList<>();
 }
