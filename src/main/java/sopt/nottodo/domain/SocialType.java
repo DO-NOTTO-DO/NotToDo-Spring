@@ -1,7 +1,7 @@
 package sopt.nottodo.domain;
 
-import nottodo.util.exception.CustomException;
-import nottodo.util.response.ResponseCode;
+import sopt.nottodo.util.exception.CustomException;
+import sopt.nottodo.util.response.ResponseCode;
 
 import java.util.Arrays;
 

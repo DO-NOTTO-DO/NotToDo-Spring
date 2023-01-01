@@ -1,9 +1,9 @@
 package sopt.nottodo.util.exception;
 
 import lombok.extern.slf4j.Slf4j;
-import nottodo.util.response.ResponseCode;
-import nottodo.util.response.ResponseMessage;
-import nottodo.util.response.ResponseNonDataMessage;
+import sopt.nottodo.util.response.ResponseCode;
+import sopt.nottodo.util.response.ResponseMessage;
+import sopt.nottodo.util.response.ResponseNonDataMessage;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;

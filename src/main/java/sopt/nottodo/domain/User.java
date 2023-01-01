@@ -7,7 +7,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -37,6 +39,9 @@ public class User extends TimeStamped implements UserDetails {
 
     @Column
     private String fcmToken;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Mission> missions = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
