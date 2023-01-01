@@ -6,7 +6,9 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -37,4 +39,7 @@ public class Mission extends TimeStamped {
 
     @Column
     private String goal;
+
+    @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
+    private List<Action> actions = new ArrayList<>();
 }
