@@ -23,15 +23,15 @@ public class Mission extends TimeStamped {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "situation_id")
     private Situation situation;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "nottodo_id")
     private NotTodo notTodo;
 
     @Column

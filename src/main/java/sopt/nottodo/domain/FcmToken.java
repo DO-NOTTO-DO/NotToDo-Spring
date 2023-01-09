@@ -19,7 +19,7 @@ public class FcmToken extends TimeStamped {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column

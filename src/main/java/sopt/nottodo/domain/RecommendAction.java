@@ -15,7 +15,7 @@ public class RecommendAction {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "recommend_mission_id")
     private RecommendMission recommendMission;
 
     @Column(unique = true, nullable = false)

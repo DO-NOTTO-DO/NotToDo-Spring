@@ -30,7 +30,7 @@ public class JwtTokenProvider {
     public JwtTokenProvider(
             UserDetailsService userDetailsService,
             @Value("${jwt.secret}") String secretKey,
-            @Value("${jwt.token.expire-length}") Long validityInMilliseconds) {
+            @Value("${jwt.token.expire-length}") int validityInMilliseconds) {
         this.userDetailsService = userDetailsService;
         this.secretKey = secretKey;
         this.validityInMilliseconds = validityInMilliseconds;
