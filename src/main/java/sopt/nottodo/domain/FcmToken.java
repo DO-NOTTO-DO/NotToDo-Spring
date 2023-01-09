@@ -12,7 +12,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Action extends TimeStamped {
+public class FcmToken extends TimeStamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +22,6 @@ public class Action extends TimeStamped {
     @JoinColumn(name = "id")
     private User user;
 
-   @Column
+    @Column
     private String token;
 }

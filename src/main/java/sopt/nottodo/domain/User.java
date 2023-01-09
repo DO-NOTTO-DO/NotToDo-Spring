@@ -3,6 +3,7 @@ package sopt.nottodo.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -25,10 +26,11 @@ public class User extends TimeStamped implements UserDetails {
     @Column
     private String email;
 
-    @Column
+    @Column(unique = true)
     private String socialId;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private SocialType socialType;
 
     @Column
@@ -37,8 +39,8 @@ public class User extends TimeStamped implements UserDetails {
     @Column
     private String image;
 
-    @Column
-    private String fcmToken;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<FcmToken> fcmTokens = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Mission> missions = new ArrayList<>();

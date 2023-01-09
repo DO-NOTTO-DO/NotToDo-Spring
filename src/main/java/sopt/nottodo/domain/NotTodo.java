@@ -5,23 +5,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-
-import static javax.persistence.FetchType.LAZY;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Action extends TimeStamped {
+public class NotTodo extends TimeStamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "id")
-    private User user;
+    @Column
+    private String name;
 
-   @Column
-    private String token;
+    @OneToMany(mappedBy = "notTodo", cascade = CascadeType.ALL)
+    private List<Mission> missions = new ArrayList<>();
 }

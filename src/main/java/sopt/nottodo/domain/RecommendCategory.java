@@ -20,6 +20,9 @@ public class RecommendCategory {
     @Column
     private String image;
 
+    @Column
+    private String activeImage;
+
     @OneToMany(mappedBy = "recommendCategory", cascade = CascadeType.ALL)
     private List<RecommendMission> recommendMissions = new ArrayList<>();
 }
