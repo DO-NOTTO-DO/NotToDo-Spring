@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import sopt.nottodo.dto.auth.SignupRequest;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -44,6 +45,20 @@ public class User extends TimeStamped implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Mission> missions = new ArrayList<>();
+
+    public User(SignupRequest signupRequest) {
+        this.email = signupRequest.getEmail();
+        this.socialType = signupRequest.getSocialType();
+        this.socialId = signupRequest.getSocialId();
+        this.name = signupRequest.getName();
+        this.image = signupRequest.getImage();
+        addFcmToken(signupRequest.getFcmToken());
+    }
+
+    public void addFcmToken(FcmToken fcmToken) {
+        fcmTokens.add(fcmToken);
+        fcmToken.setUser(this);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
