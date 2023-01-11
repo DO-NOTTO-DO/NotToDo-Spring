@@ -93,7 +93,7 @@ public class KakaoLoginService implements SocialLoginService {
 
     private String issueAccessToken(SignupRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
-                .orElse(signup(request));
+                .orElseGet(() -> signup(request));
         return jwtTokenProvider.createToken(user.getEmail());
     }
 

@@ -13,7 +13,6 @@ import sopt.nottodo.domain.User;
 import sopt.nottodo.dto.auth.LoginRequest;
 import sopt.nottodo.dto.auth.LoginResponse;
 import sopt.nottodo.dto.auth.SignupRequest;
-import sopt.nottodo.repository.FcmTokenRepository;
 import sopt.nottodo.repository.UserRepository;
 import sopt.nottodo.service.SocialLoginService;
 import sopt.nottodo.util.exception.CustomException;
@@ -136,7 +135,7 @@ public class AppleLoginService implements SocialLoginService {
 
     private String issueAccessToken(SignupRequest request) {
         User user = userRepository.findBySocialId(request.getSocialId())
-                .orElse(signup(request));
+                .orElseGet(() -> signup(request));
         return jwtTokenProvider.createToken(user.getEmail());
     }
 
