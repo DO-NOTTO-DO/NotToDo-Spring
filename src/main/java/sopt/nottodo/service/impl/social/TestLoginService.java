@@ -45,6 +45,7 @@ public class TestLoginService implements SocialLoginService {
     }
 
     private User signup(SignupRequest request) {
-        return userRepository.save(new User(request));
+        User user = new User(request);
+        return userRepository.save(user);
     }
 }
