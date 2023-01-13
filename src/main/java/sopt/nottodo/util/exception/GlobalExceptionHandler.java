@@ -1,6 +1,7 @@
 package sopt.nottodo.util.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import sopt.nottodo.util.response.ResponseCode;
 import sopt.nottodo.util.response.ResponseMessage;
 import sopt.nottodo.util.response.ResponseNonDataMessage;
@@ -18,6 +19,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = HttpMessageNotReadableException.class)
     protected ResponseEntity<ResponseMessage> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         CustomException customException = new CustomException(ResponseCode.INVALID_BODY_TYPE);
+        log.debug("Bad request exception occurred: {}", e.getMessage(), e);
+        return ResponseNonDataMessage.toResponseEntity(customException.getResponseCode());
+    }
+
+    @ExceptionHandler(value = DataIntegrityViolationException.class)
+    protected ResponseEntity<ResponseMessage> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
+        CustomException customException = new CustomException(ResponseCode.DUPLICATED_EMAIL);
         log.debug("Bad request exception occurred: {}", e.getMessage(), e);
         return ResponseNonDataMessage.toResponseEntity(customException.getResponseCode());
     }
