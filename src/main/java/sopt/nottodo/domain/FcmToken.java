@@ -2,6 +2,7 @@ package sopt.nottodo.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -24,4 +25,8 @@ public class FcmToken extends TimeStamped {
 
     @Column
     private String token;
+
+    public FcmToken(String token) {
+        this.token = token;
+    }
 }
