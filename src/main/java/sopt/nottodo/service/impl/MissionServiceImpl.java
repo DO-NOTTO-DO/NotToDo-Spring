@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sopt.nottodo.domain.Mission;
 import sopt.nottodo.domain.User;
 import sopt.nottodo.dto.mission.DailyMissionResponse;
+import sopt.nottodo.dto.mission.MissionDto;
 import sopt.nottodo.repository.MissionRepository;
 import sopt.nottodo.repository.UserRepository;
 import sopt.nottodo.service.MissionService;
@@ -14,8 +15,10 @@ import sopt.nottodo.util.response.ResponseCode;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,10 +29,12 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     @Transactional
-    public DailyMissionResponse getDailyMission(String today, Long userId) {
+    public List<MissionDto> getDailyMission(String today, Long userId) {
         User user = findUser(userId);
         List<Mission> missions = missionRepository.findByUserAndActionDate(user, getToday(today));
-        return new DailyMissionResponse(missions);
+        return missions.stream()
+                .map(MissionDto::new)
+                .collect(Collectors.toUnmodifiableList());
     }
 
     private User findUser(Long userId) {

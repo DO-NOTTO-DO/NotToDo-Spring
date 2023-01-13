@@ -1,10 +1,12 @@
 package sopt.nottodo.service;
 
 import org.springframework.transaction.annotation.Transactional;
-import sopt.nottodo.dto.mission.DailyMissionResponse;
+import sopt.nottodo.dto.mission.MissionDto;
+
+import java.util.List;
 
 public interface MissionService {
 
     @Transactional
-    DailyMissionResponse getDailyMission(String today, Long userId);
+    List<MissionDto> getDailyMission(String today, Long userId);
 }
