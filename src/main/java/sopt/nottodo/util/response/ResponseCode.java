@@ -29,7 +29,11 @@ public enum ResponseCode {
 
     // user
     GET_USER_INFO_SUCCESS(HttpStatus.OK, true, "사용자 정보 조회 성공"),
-    DELETE_USER_SUCCESS(HttpStatus.OK, true, "탈퇴 성공");
+    DELETE_USER_SUCCESS(HttpStatus.OK, true, "탈퇴 성공"),
+
+    // mission
+    INVALID_DATE_FORMAT(HttpStatus.BAD_REQUEST, false, "올바르지 않은 날짜 형식입니다."),
+    GET_DAILY_MISSIONS_SUCCESS(HttpStatus.OK, true, "일일 낫투두 조회 성공");
 
     private final HttpStatus httpStatus;
     private final Boolean success;

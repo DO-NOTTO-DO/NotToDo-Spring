@@ -19,7 +19,7 @@ public class NotTodo extends TimeStamped {
     private Long id;
 
     @Column
-    private String name;
+    private String title;
 
     @OneToMany(mappedBy = "notTodo", cascade = CascadeType.ALL)
     private List<Mission> missions = new ArrayList<>();

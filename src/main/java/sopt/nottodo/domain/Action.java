@@ -19,13 +19,9 @@ public class Action extends TimeStamped {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "mission_id")
     private Mission mission;
 
    @Column
-    private String token;
+    private String name;
 }
