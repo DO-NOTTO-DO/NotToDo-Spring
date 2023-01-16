@@ -26,7 +26,7 @@ public class SituationServiceImpl implements SituationService {
     @Override
     public SituationResponse getSituations(Long userId) {
         User user = findUser(userId);
-        List<SituationDto> recommendSituations = recommendSituationRepository.findAll().stream()
+        List<SituationDto> recommendSituations = recommendSituationRepository.findFirst9AllByOrderByIdDesc().stream()
                 .map(SituationDto::new)
                 .collect(Collectors.toUnmodifiableList());
         List<SituationDto> recentSituations = missionRepository.findByUser(user).stream()

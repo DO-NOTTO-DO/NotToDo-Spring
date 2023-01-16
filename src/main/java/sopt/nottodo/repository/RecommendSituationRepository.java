@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface RecommendSituationRepository extends JpaRepository<RecommendSituation, Long> {
 
-    List<RecommendSituation> findAll();
+    List<RecommendSituation> findFirst9AllByOrderByIdDesc();
 }
