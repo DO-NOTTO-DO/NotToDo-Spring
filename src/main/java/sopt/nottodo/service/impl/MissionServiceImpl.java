@@ -44,6 +44,9 @@ public class MissionServiceImpl implements MissionService {
     @Override
     public List<DailyMissionPercentageDto> getWeeklyMissionPercentage(String startDate, Long userId) {
         User user = findUser(userId);
+        Date day = getToday(startDate);
+        validateMonday(day);
+
     }
 
     private User findUser(Long userId) {
