@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sopt.nottodo.domain.Mission;
 import sopt.nottodo.domain.User;
+import sopt.nottodo.dto.mission.DailyMissionPercentageCalculateDto;
 import sopt.nottodo.dto.mission.DailyMissionPercentageDto;
+import sopt.nottodo.dto.mission.MissionCompletionStatusDto;
 import sopt.nottodo.dto.mission.MissionDto;
 import sopt.nottodo.repository.MissionRepository;
 import sopt.nottodo.repository.UserRepository;
@@ -18,8 +20,7 @@ import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 public class MissionServiceImpl implements MissionService {
 
     private static final Integer MONDAY = 1;
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
 
     private final MissionRepository missionRepository;
     private final UserRepository userRepository;
@@ -44,9 +46,12 @@ public class MissionServiceImpl implements MissionService {
     @Override
     public List<DailyMissionPercentageDto> getWeeklyMissionPercentage(String startDate, Long userId) {
         User user = findUser(userId);
-        Date day = getToday(startDate);
-        validateMonday(day);
-
+        Date startDay = getToday(startDate);
+        validateMonday(startDay);
+        Date finishDay = getWeekAfter(startDay);
+        List<MissionCompletionStatusDto> missions
+                = missionRepository.findByUserAndActionDateRange(user, startDay, finishDay);
+        return calculateWeeklyMissionPercentage(missions);
     }
 
     private User findUser(Long userId) {
@@ -55,9 +60,35 @@ public class MissionServiceImpl implements MissionService {
         );
     }
 
+    private List<DailyMissionPercentageDto> calculateWeeklyMissionPercentage(List<MissionCompletionStatusDto> missions) {
+        Map<Date, DailyMissionPercentageCalculateDto> dailyMissions = makeDailyMissionPercentageCalculateDto(missions);
+        addMissionPoints(missions, dailyMissions);
+        return dailyMissions.values().stream()
+                .map(DailyMissionPercentageCalculateDto::convertToResponse)
+                .sorted(Comparator.comparing(DailyMissionPercentageDto::getActionDate))
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    private Map<Date, DailyMissionPercentageCalculateDto> makeDailyMissionPercentageCalculateDto(List<MissionCompletionStatusDto> missions) {
+        Map<Date, DailyMissionPercentageCalculateDto> dailyMissions = new LinkedHashMap<>();
+        missions.stream()
+                .collect(Collectors.groupingByConcurrent(MissionCompletionStatusDto::getActionDate))
+                .forEach((key, value) -> {
+                    dailyMissions.put(key, new DailyMissionPercentageCalculateDto(key, value.size()));
+                });
+        return dailyMissions;
+    }
+
+    private void addMissionPoints(List<MissionCompletionStatusDto> missions, Map<Date, DailyMissionPercentageCalculateDto> dailyMissions) {
+        missions.forEach(mission -> {
+            float point = mission.getCompletionStatus().getPoint();
+            dailyMissions.get(mission.getActionDate()).addPoint(point);
+        });
+    }
+
     private Date getToday(String today) {
         try {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
             return format.parse(today);
         } catch (ParseException e) {
             throw new CustomException(ResponseCode.INVALID_DATE_FORMAT);
@@ -77,5 +108,13 @@ public class MissionServiceImpl implements MissionService {
         return date.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
+    }
+
+    private Date getWeekAfter(Date date) {
+        LocalDate localDate = dateToLocalDate(date);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(localDate.getYear(), localDate.getMonthValue() - 1, localDate.getDayOfMonth(), 0, 0, 0);
+        calendar.add(Calendar.DATE, 7);
+        return calendar.getTime();
     }
 }
