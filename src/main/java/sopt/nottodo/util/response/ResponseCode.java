@@ -33,8 +33,10 @@ public enum ResponseCode {
 
     // mission
     INVALID_DATE_FORMAT(HttpStatus.BAD_REQUEST, false, "올바르지 않은 날짜 형식입니다."),
-    GET_DAILY_MISSIONS_SUCCESS(HttpStatus.OK, true, "일일 낫투두 조회 성공");
+    GET_DAILY_MISSIONS_SUCCESS(HttpStatus.OK, true, "일일 낫투두 조회 성공"),
 
+    // environment
+    GET_RECOMMEND_CATEGORY_SUCCESS(HttpStatus.OK, true, "추천 카테고리 조회 성공");
     private final HttpStatus httpStatus;
     private final Boolean success;
     private final String message;
