@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SituationServiceImpl implements SituationService {
 
+    private static final Integer SITUATION_LIMIT_COUNT = 9;
+
     private final MissionRepository missionRepository;
     private final RecommendSituationRepository recommendSituationRepository;
     private final UserRepository userRepository;
@@ -37,7 +39,7 @@ public class SituationServiceImpl implements SituationService {
                     return !recommendSituations.contains(situation);
                 })
                 .distinct()
-                .limit(9)
+                .limit(SITUATION_LIMIT_COUNT)
                 .collect(Collectors.toUnmodifiableList());
         return new SituationResponse(recommendSituations, recentSituations);
     }
