@@ -32,7 +32,13 @@ public class SituationServiceImpl implements SituationService {
         List<SituationDto> recentSituations = missionRepository.findByUser(user).stream()
                 .map((mission) -> {
                     return new SituationDto(mission.getSituation());
-                }).collect(Collectors.toUnmodifiableList());
+                })
+                .filter((situation) -> {
+                    return !recommendSituations.contains(situation);
+                })
+                .distinct()
+                .limit(9)
+                .collect(Collectors.toUnmodifiableList());
         return new SituationResponse(recommendSituations, recentSituations);
     }
 
