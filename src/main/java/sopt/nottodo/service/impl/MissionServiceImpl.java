@@ -5,10 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sopt.nottodo.domain.Mission;
 import sopt.nottodo.domain.User;
-import sopt.nottodo.dto.mission.DailyMissionPercentageCalculateDto;
-import sopt.nottodo.dto.mission.DailyMissionPercentageDto;
-import sopt.nottodo.dto.mission.MissionCompletionStatusDto;
-import sopt.nottodo.dto.mission.MissionDto;
+import sopt.nottodo.dto.mission.*;
 import sopt.nottodo.repository.MissionRepository;
 import sopt.nottodo.repository.UserRepository;
 import sopt.nottodo.service.MissionService;
@@ -52,6 +49,16 @@ public class MissionServiceImpl implements MissionService {
         List<MissionCompletionStatusDto> missions
                 = missionRepository.findByUserAndActionDateRange(user, startDay, finishDay);
         return calculateWeeklyMissionPercentage(missions);
+    }
+
+    @Override
+    public List<MissionTitleDto> getRecentMissions(Long userId) {
+        User user = findUser(userId);
+        List<MissionTitleDto> recentMissions = missionRepository.findByUserOrderByCreatedAtDesc(user).stream()
+                .map(MissionTitleDto::new)
+                .distinct()
+                .collect(Collectors.toUnmodifiableList());
+        return recentMissions;
     }
 
     private User findUser(Long userId) {

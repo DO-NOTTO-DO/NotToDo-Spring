@@ -1,9 +1,11 @@
 package sopt.nottodo.dto.mission;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import sopt.nottodo.domain.Mission;
 
 @Getter
+@EqualsAndHashCode(of = {"title"})
 public class MissionTitleDto {
 
     private final String title;
