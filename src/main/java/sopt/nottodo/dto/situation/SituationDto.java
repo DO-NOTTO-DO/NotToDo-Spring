@@ -1,12 +1,12 @@
 package sopt.nottodo.dto.situation;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import sopt.nottodo.domain.RecommendSituation;
 import sopt.nottodo.domain.Situation;
 
-import java.util.Objects;
-
 @Getter
+@EqualsAndHashCode(of = {"name"})
 public class SituationDto {
     private final String name;
 
@@ -16,16 +16,5 @@ public class SituationDto {
 
     public SituationDto(RecommendSituation situation) {
         this.name = situation.getName();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        SituationDto situation = (SituationDto) obj;
-        return (Objects.equals(this.name, situation.getName()));
-    }
-
-    @Override
-    public int hashCode() {
-        return name.hashCode();
     }
 }

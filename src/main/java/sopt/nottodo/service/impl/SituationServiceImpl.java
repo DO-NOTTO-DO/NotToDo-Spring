@@ -28,19 +28,8 @@ public class SituationServiceImpl implements SituationService {
     @Override
     public SituationResponse getSituations(Long userId) {
         User user = findUser(userId);
-        List<SituationDto> recommendSituations = recommendSituationRepository.findFirst9AllByOrderByIdDesc().stream()
-                .map(SituationDto::new)
-                .collect(Collectors.toUnmodifiableList());
-        List<SituationDto> recentSituations = missionRepository.findByUser(user).stream()
-                .map((mission) -> {
-                    return new SituationDto(mission.getSituation());
-                })
-                .filter((situation) -> {
-                    return !recommendSituations.contains(situation);
-                })
-                .distinct()
-                .limit(SITUATION_LIMIT_COUNT)
-                .collect(Collectors.toUnmodifiableList());
+        List<SituationDto> recommendSituations = getRecommendSituations();
+        List<SituationDto> recentSituations = getRecentSituations(user, recommendSituations);
         return new SituationResponse(recommendSituations, recentSituations);
     }
 
@@ -48,5 +37,20 @@ public class SituationServiceImpl implements SituationService {
         return userRepository.findById(userId).orElseThrow(
                 () -> new CustomException(ResponseCode.USER_NOT_FOUND)
         );
+    }
+
+    private List<SituationDto> getRecommendSituations() {
+        return recommendSituationRepository.findFirst9AllByOrderByIdDesc().stream()
+                .map(SituationDto::new)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    private List<SituationDto> getRecentSituations(User user, List<SituationDto> recommendSituations) {
+        return missionRepository.findByUser(user).stream()
+                .map(mission -> new SituationDto(mission.getSituation()))
+                .filter(situation -> !recommendSituations.contains(situation))
+                .distinct()
+                .limit(SITUATION_LIMIT_COUNT)
+                .collect(Collectors.toUnmodifiableList());
     }
 }
