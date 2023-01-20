@@ -27,4 +27,14 @@ public class MissionController {
                 missionService.getDailyMission(date, userId)
         );
     }
+
+    @GetMapping("/week/{startDate}")
+    public ResponseEntity<ResponseMessage> getWeeklyMissionPercentage(
+            @PathVariable String startDate, HttpServletRequest request) {
+        Long userId = Long.valueOf(request.getUserPrincipal().getName());
+        return ResponseDataMessage.toResponseEntity(
+                ResponseCode.GET_WEEKLY_MISSIONS_PERCENTAGE_SUCCESS,
+                missionService.getWeeklyMissionPercentage(startDate, userId)
+        );
+    }
 }
