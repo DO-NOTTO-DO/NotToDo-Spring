@@ -15,6 +15,7 @@ import java.util.List;
 public interface MissionRepository extends JpaRepository<Mission, Long> {
 
     List<Mission> findByUserAndActionDate(User user, Date actionDate);
+    List<Mission> findByUser(User user);
 
     @Query(value =
             "select new sopt.nottodo.dto.mission.MissionCompletionStatusDto(mission.actionDate, mission.completionStatus)" +
