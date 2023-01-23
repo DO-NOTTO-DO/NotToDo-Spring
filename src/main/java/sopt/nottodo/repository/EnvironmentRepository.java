@@ -9,5 +9,4 @@ import java.util.List;
 
 @Repository
 public interface EnvironmentRepository extends JpaRepository<RecommendCategory, Long> {
-//    List<RecommendCategory> findAll();
 }

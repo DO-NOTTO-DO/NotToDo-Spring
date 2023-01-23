@@ -19,11 +19,12 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 @RequiredArgsConstructor
 public class EnvironmentServiceImpl implements EnvironmentService {
     private final EnvironmentRepository environmentRepository;
+
     @Override
     public List<CategoryDto> getCategory() {
         List<RecommendCategory> categories = environmentRepository.findAll();
         return categories.stream()
-                .map(category-> new CategoryDto(category.getId(), category.getName(), category.getImage(), category.getActiveImage()))
+                .map(CategoryDto::new)
                 .collect(Collectors.toUnmodifiableList());
     }
 }

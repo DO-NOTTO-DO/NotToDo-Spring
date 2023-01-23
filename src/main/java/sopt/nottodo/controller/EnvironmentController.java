@@ -19,7 +19,6 @@ public class EnvironmentController {
 
     @GetMapping("/category")
     public ResponseEntity<ResponseMessage> getCategory() {
-        System.out.println(environmentService.getCategory());
         return ResponseDataMessage.toResponseEntity(
                 ResponseCode.GET_RECOMMEND_CATEGORY_SUCCESS,
                 environmentService.getCategory()
