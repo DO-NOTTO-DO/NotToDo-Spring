@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateModule {
@@ -37,5 +38,13 @@ public class DateModule {
         return date.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
+    }
+
+    public static Date getWeekAfter(Date date) {
+        LocalDate localDate = dateToLocalDate(date);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(localDate.getYear(), localDate.getMonthValue() - 1, localDate.getDayOfMonth(), 0, 0, 0);
+        calendar.add(Calendar.DATE, 7);
+        return calendar.getTime();
     }
 }
