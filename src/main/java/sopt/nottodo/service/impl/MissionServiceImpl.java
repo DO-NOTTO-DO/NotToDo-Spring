@@ -12,6 +12,7 @@ import sopt.nottodo.dto.mission.MissionDto;
 import sopt.nottodo.repository.MissionRepository;
 import sopt.nottodo.repository.UserRepository;
 import sopt.nottodo.service.MissionService;
+import sopt.nottodo.util.DateModule;
 import sopt.nottodo.util.exception.CustomException;
 import sopt.nottodo.util.response.ResponseCode;
 
@@ -37,7 +38,7 @@ public class MissionServiceImpl implements MissionService {
     @Transactional
     public List<MissionDto> getDailyMission(String today, Long userId) {
         User user = findUser(userId);
-        List<Mission> missions = missionRepository.findByUserAndActionDate(user, getToday(today));
+        List<Mission> missions = missionRepository.findByUserAndActionDate(user, DateModule.getToday(today));
         return missions.stream()
                 .map(MissionDto::new)
                 .collect(Collectors.toUnmodifiableList());
@@ -46,7 +47,7 @@ public class MissionServiceImpl implements MissionService {
     @Override
     public List<DailyMissionPercentageDto> getWeeklyMissionPercentage(String startDate, Long userId) {
         User user = findUser(userId);
-        Date startDay = getToday(startDate);
+        Date startDay = DateModule.getToday(startDate);
         validateMonday(startDay);
         Date finishDay = getWeekAfter(startDay);
         List<MissionCompletionStatusDto> missions
@@ -84,15 +85,6 @@ public class MissionServiceImpl implements MissionService {
             float point = mission.getCompletionStatus().getPoint();
             dailyMissions.get(mission.getActionDate()).addPoint(point);
         });
-    }
-
-    private Date getToday(String today) {
-        try {
-            SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
-            return format.parse(today);
-        } catch (ParseException e) {
-            throw new CustomException(ResponseCode.INVALID_DATE_FORMAT);
-        }
     }
 
     private void validateMonday(Date day) {
