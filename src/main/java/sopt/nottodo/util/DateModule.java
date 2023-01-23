@@ -5,6 +5,9 @@ import sopt.nottodo.util.response.ResponseCode;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 public class DateModule {
@@ -19,5 +22,20 @@ public class DateModule {
         } catch (ParseException e) {
             throw new CustomException(ResponseCode.INVALID_DATE_FORMAT);
         }
+    }
+
+    public static void validateMonday(Date day) {
+        LocalDate localDate = dateToLocalDate(day);
+        DayOfWeek dayOfWeek = localDate.getDayOfWeek();
+        int dayOfWeekNumber = dayOfWeek.getValue();
+        if (dayOfWeekNumber != MONDAY) {
+            throw new CustomException(ResponseCode.NOT_MONDAY);
+        }
+    }
+
+    public static LocalDate dateToLocalDate(Date date) {
+        return date.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
     }
 }

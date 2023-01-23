@@ -48,7 +48,7 @@ public class MissionServiceImpl implements MissionService {
     public List<DailyMissionPercentageDto> getWeeklyMissionPercentage(String startDate, Long userId) {
         User user = findUser(userId);
         Date startDay = DateModule.getToday(startDate);
-        validateMonday(startDay);
+        DateModule.validateMonday(startDay);
         Date finishDay = getWeekAfter(startDay);
         List<MissionCompletionStatusDto> missions
                 = missionRepository.findByUserAndActionDateRange(user, startDay, finishDay);
@@ -87,23 +87,8 @@ public class MissionServiceImpl implements MissionService {
         });
     }
 
-    private void validateMonday(Date day) {
-        LocalDate localDate = dateToLocalDate(day);
-        DayOfWeek dayOfWeek = localDate.getDayOfWeek();
-        int dayOfWeekNumber = dayOfWeek.getValue();
-        if (dayOfWeekNumber != MONDAY) {
-            throw new CustomException(ResponseCode.NOT_MONDAY);
-        }
-    }
-
-    private LocalDate dateToLocalDate(Date date) {
-        return date.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate();
-    }
-
     private Date getWeekAfter(Date date) {
-        LocalDate localDate = dateToLocalDate(date);
+        LocalDate localDate = DateModule.dateToLocalDate(date);
         Calendar calendar = Calendar.getInstance();
         calendar.set(localDate.getYear(), localDate.getMonthValue() - 1, localDate.getDayOfMonth(), 0, 0, 0);
         calendar.add(Calendar.DATE, 7);
