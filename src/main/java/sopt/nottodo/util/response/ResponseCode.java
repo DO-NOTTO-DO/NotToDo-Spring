@@ -41,6 +41,7 @@ public enum ResponseCode {
     
     // environment
     GET_RECOMMEND_CATEGORY_SUCCESS(HttpStatus.OK, true, "추천 카테고리 조회 성공");
+
     private final HttpStatus httpStatus;
     private final Boolean success;
     private final String message;

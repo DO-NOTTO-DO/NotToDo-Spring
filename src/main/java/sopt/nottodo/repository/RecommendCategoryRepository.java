@@ -5,8 +5,6 @@ import org.springframework.stereotype.Repository;
 import sopt.nottodo.domain.RecommendCategory;
 
 
-import java.util.List;
-
 @Repository
-public interface EnvironmentRepository extends JpaRepository<RecommendCategory, Long> {
+public interface RecommendCategoryRepository extends JpaRepository<RecommendCategory, Long> {
 }
