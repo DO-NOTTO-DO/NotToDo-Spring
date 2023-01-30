@@ -14,15 +14,15 @@ import java.util.List;
 public class RecommendMissionResponse {
 
     private final String title;
-    private final List<RecommendActionDto> actions;
+    private final List<RecommendActionDto> recommendActions;
 
     public RecommendMissionResponse(String title, List<RecommendAction> actions) {
         this.title = title;
-        this.actions = new ArrayList<>();
+        this.recommendActions = new ArrayList<>();
         makeActionDtos(actions);
     }
 
     private void makeActionDtos(List<RecommendAction> actions) {
-        actions.forEach(action -> this.actions.add(new RecommendActionDto(action)));
+        actions.forEach(action -> this.recommendActions.add(new RecommendActionDto(action)));
     }
 }
