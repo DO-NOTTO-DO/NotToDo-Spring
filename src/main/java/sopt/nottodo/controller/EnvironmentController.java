@@ -16,6 +16,7 @@ import sopt.nottodo.util.response.ResponseMessage;
 @RequiredArgsConstructor
 @RequestMapping("/environment")
 public class EnvironmentController {
+
     private final EnvironmentService environmentService;
 
     @GetMapping("/category")
