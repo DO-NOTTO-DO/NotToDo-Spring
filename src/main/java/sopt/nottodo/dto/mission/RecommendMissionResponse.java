@@ -8,6 +8,7 @@ import sopt.nottodo.dto.action.RecommendActionDto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @EqualsAndHashCode
@@ -18,11 +19,12 @@ public class RecommendMissionResponse {
 
     public RecommendMissionResponse(String title, List<RecommendAction> actions) {
         this.title = title;
-        this.recommendActions = new ArrayList<>();
-        makeActionDtos(actions);
+        this.recommendActions = makeActionDtos(actions);
     }
 
-    private void makeActionDtos(List<RecommendAction> actions) {
-        actions.forEach(action -> this.recommendActions.add(new RecommendActionDto(action)));
+    private List<RecommendActionDto> makeActionDtos(List<RecommendAction> actions) {
+        return actions.stream()
+                .map(action -> new RecommendActionDto(action))
+                .collect(Collectors.toUnmodifiableList());
     }
 }

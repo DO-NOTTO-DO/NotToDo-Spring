@@ -33,7 +33,7 @@ public class EnvironmentServiceImpl implements EnvironmentService {
     public List<RecommendMissionResponse> getMissionByCategory(Long recommendCategoryId) {
         List<RecommendMission> missions = recommendMissionRepository.findByRecommendCategoryId(recommendCategoryId);
         return missions.stream()
-                .map(mission-> new RecommendMissionResponse(mission.getTitle(), mission.getRecommendActions()))
+                .map(mission -> new RecommendMissionResponse(mission.getTitle(), mission.getRecommendActions()))
                 .collect(Collectors.toUnmodifiableList());
     }
 }
