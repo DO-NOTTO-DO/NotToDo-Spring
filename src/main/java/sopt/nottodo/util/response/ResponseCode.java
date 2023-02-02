@@ -41,7 +41,8 @@ public enum ResponseCode {
     INVALID_COMPLETION_STATUS(HttpStatus.BAD_REQUEST, false, "유요하지 않는 완료 상태입니다."),
 
     // situation
-    GET_SITUATIONS_SUCCESS(HttpStatus.OK, true, "상황 불러오기 성공");
+    GET_SITUATIONS_SUCCESS(HttpStatus.OK, true, "상황 불러오기 성공"),
+    GET_RECOMMEND_CATEGORY_SUCCESS(HttpStatus.OK, true, "추천 카테고리 조회 성공");
 
     private final HttpStatus httpStatus;
     private final Boolean success;

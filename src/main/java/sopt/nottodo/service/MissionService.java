@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface MissionService {
 
-    @Transactional
     List<MissionDto> getDailyMission(String today, Long userId);
     List<DailyMissionPercentageDto> getWeeklyMissionPercentage(String startDate, Long userId);
     List<MissionTitleDto> getRecentMissions(Long userId);
