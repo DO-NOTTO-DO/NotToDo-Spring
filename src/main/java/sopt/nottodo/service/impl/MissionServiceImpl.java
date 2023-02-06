@@ -41,7 +41,7 @@ public class MissionServiceImpl implements MissionService {
         Date startDay = DateModule.getToday(startDate);
         DateModule.validateMonday(startDay);
         Date finishDay = DateModule.getWeekAfter(startDay);
-        List<MissionCompletionStatusDto> missions
+        List<MissionDateCompletionStatusDto> missions
                 = missionRepository.findByUserAndActionDateRange(user, startDay, finishDay);
         return calculateWeeklyMissionPercentage(missions);
     }
@@ -62,7 +62,7 @@ public class MissionServiceImpl implements MissionService {
         );
     }
 
-    private List<DailyMissionPercentageDto> calculateWeeklyMissionPercentage(List<MissionCompletionStatusDto> missions) {
+    private List<DailyMissionPercentageDto> calculateWeeklyMissionPercentage(List<MissionDateCompletionStatusDto> missions) {
         Map<Date, DailyMissionPercentageCalculateDto> dailyMissions = makeDailyMissionPercentageCalculateDto(missions);
         addMissionPoints(missions, dailyMissions);
         return dailyMissions.values().stream()
@@ -71,17 +71,17 @@ public class MissionServiceImpl implements MissionService {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    private Map<Date, DailyMissionPercentageCalculateDto> makeDailyMissionPercentageCalculateDto(List<MissionCompletionStatusDto> missions) {
+    private Map<Date, DailyMissionPercentageCalculateDto> makeDailyMissionPercentageCalculateDto(List<MissionDateCompletionStatusDto> missions) {
         Map<Date, DailyMissionPercentageCalculateDto> dailyMissions = new LinkedHashMap<>();
         missions.stream()
-                .collect(Collectors.groupingByConcurrent(MissionCompletionStatusDto::getActionDate))
+                .collect(Collectors.groupingByConcurrent(MissionDateCompletionStatusDto::getActionDate))
                 .forEach((key, value) -> {
                     dailyMissions.put(key, new DailyMissionPercentageCalculateDto(key, value.size()));
                 });
         return dailyMissions;
     }
 
-    private void addMissionPoints(List<MissionCompletionStatusDto> missions, Map<Date, DailyMissionPercentageCalculateDto> dailyMissions) {
+    private void addMissionPoints(List<MissionDateCompletionStatusDto> missions, Map<Date, DailyMissionPercentageCalculateDto> dailyMissions) {
         missions.forEach(mission -> {
             float point = mission.getCompletionStatus().getPoint();
             dailyMissions.get(mission.getActionDate()).addPoint(point);

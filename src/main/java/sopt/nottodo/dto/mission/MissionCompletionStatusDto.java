@@ -1,13 +1,13 @@
 package sopt.nottodo.dto.mission;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import sopt.nottodo.domain.CompletionStatus;
 
-import java.util.Date;
-
-@Data
+@Getter
+@RequiredArgsConstructor
 public class MissionCompletionStatusDto {
 
-    private final Date actionDate;
+    private final Long id;
     private final CompletionStatus completionStatus;
 }

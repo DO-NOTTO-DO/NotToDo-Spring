@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import sopt.nottodo.domain.Mission;
 import sopt.nottodo.domain.User;
-import sopt.nottodo.dto.mission.MissionCompletionStatusDto;
+import sopt.nottodo.dto.mission.MissionDateCompletionStatusDto;
 
 import java.util.Date;
 import java.util.List;
@@ -24,7 +24,7 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
             " where mission.user = :user" +
             " and mission.actionDate >= :startDate and mission.actionDate < :lastDate" +
             " order by mission.actionDate")
-    List<MissionCompletionStatusDto> findByUserAndActionDateRange(
+    List<MissionDateCompletionStatusDto> findByUserAndActionDateRange(
             @Param("user") User user,
             @Param("startDate") Date startDate,
             @Param("lastDate") Date lastDate

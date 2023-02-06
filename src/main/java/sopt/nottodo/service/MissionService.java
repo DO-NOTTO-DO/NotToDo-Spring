@@ -1,6 +1,5 @@
 package sopt.nottodo.service;
 
-import org.springframework.transaction.annotation.Transactional;
 import sopt.nottodo.dto.mission.DailyMissionPercentageDto;
 import sopt.nottodo.dto.mission.MissionDto;
 import sopt.nottodo.dto.mission.MissionTitleDto;
