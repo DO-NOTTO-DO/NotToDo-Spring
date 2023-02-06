@@ -19,7 +19,7 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
     List<Mission> findByUserOrderByCreatedAtDesc(User user);
 
     @Query(value =
-            "select new sopt.nottodo.dto.mission.MissionCompletionStatusDto(mission.actionDate, mission.completionStatus)" +
+            "select new sopt.nottodo.dto.mission.MissionDateCompletionStatusDto(mission.actionDate, mission.completionStatus)" +
             " from Mission mission" +
             " where mission.user = :user" +
             " and mission.actionDate >= :startDate and mission.actionDate < :lastDate" +

@@ -56,6 +56,12 @@ public class MissionServiceImpl implements MissionService {
         return recentMissions;
     }
 
+    @Override
+    public MissionCompletionStatusDto changeMissionCompletionStatus(Long missionId, Long userId) {
+        Mission mission = findById(missionId);
+        return null;
+    }
+
     private User findUser(Long userId) {
         return userRepository.findById(userId).orElseThrow(
                 () -> new CustomException(ResponseCode.USER_NOT_FOUND)
@@ -86,5 +92,10 @@ public class MissionServiceImpl implements MissionService {
             float point = mission.getCompletionStatus().getPoint();
             dailyMissions.get(mission.getActionDate()).addPoint(point);
         });
+    }
+
+    private Mission findById(Long missionId) {
+        return missionRepository.findById(missionId)
+                .orElseThrow(() -> new CustomException(ResponseCode.MISSION_ID_NOT_FOUND));
     }
 }
