@@ -39,6 +39,7 @@ public enum ResponseCode {
     NOT_SUNDAY(HttpStatus.BAD_REQUEST, false, "주의 시작 일자는 일요일입니다."),
     GET_WEEKLY_MISSIONS_PERCENTAGE_SUCCESS(HttpStatus.OK, true, "주간 낫투두 성취도 조회 성공"),
     INVALID_COMPLETION_STATUS(HttpStatus.BAD_REQUEST, false, "유요하지 않는 완료 상태입니다."),
+    NOT_USERS_MISSION(HttpStatus.BAD_REQUEST, false, "로그인한 유저의 낫투두가 아닙니다."),
 
     // situation
     GET_SITUATIONS_SUCCESS(HttpStatus.OK, true, "상황 불러오기 성공"),

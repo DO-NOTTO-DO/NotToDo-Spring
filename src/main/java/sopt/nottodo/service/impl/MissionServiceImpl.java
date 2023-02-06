@@ -49,17 +49,17 @@ public class MissionServiceImpl implements MissionService {
     @Override
     public List<MissionTitleDto> getRecentMissions(Long userId) {
         User user = findUser(userId);
-        List<MissionTitleDto> recentMissions = missionRepository.findByUserOrderByCreatedAtDesc(user).stream()
+        return missionRepository.findByUserOrderByCreatedAtDesc(user).stream()
                 .map(MissionTitleDto::new)
                 .distinct()
                 .collect(Collectors.toUnmodifiableList());
-        return recentMissions;
     }
 
     @Override
     public MissionCompletionStatusDto changeMissionCompletionStatus(Long missionId, Long userId) {
-        Mission mission = findById(missionId);
-        return null;
+        Mission mission = findMissionById(missionId);
+        validateUsersMission(mission, userId);
+        return new MissionCompletionStatusDto();
     }
 
     private User findUser(Long userId) {
@@ -94,8 +94,16 @@ public class MissionServiceImpl implements MissionService {
         });
     }
 
-    private Mission findById(Long missionId) {
+    private Mission findMissionById(Long missionId) {
         return missionRepository.findById(missionId)
                 .orElseThrow(() -> new CustomException(ResponseCode.MISSION_ID_NOT_FOUND));
+    }
+
+    private void validateUsersMission(Mission mission, Long userId) {
+        User user = findUser(userId);
+        User missionsUser = mission.getUser();
+        if (!user.equals(missionsUser)) {
+            throw new CustomException(ResponseCode.NOT_USERS_MISSION);
+        }
     }
 }
