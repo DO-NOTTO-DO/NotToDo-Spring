@@ -2,6 +2,7 @@ package sopt.nottodo.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import sopt.nottodo.domain.CompletionStatus;
 import sopt.nottodo.domain.Mission;
 import sopt.nottodo.domain.User;
 import sopt.nottodo.dto.mission.*;
@@ -56,10 +57,12 @@ public class MissionServiceImpl implements MissionService {
     }
 
     @Override
-    public MissionCompletionStatusDto changeMissionCompletionStatus(Long missionId, Long userId) {
+    public MissionCompletionStatusDto changeMissionCompletionStatus(Long missionId, String completionStatus, Long userId) {
         Mission mission = findMissionById(missionId);
         validateUsersMission(mission, userId);
-        return new MissionCompletionStatusDto();
+        mission.setCompletionStatus(CompletionStatus.from(completionStatus));
+        missionRepository.save(mission);
+        return new MissionCompletionStatusDto(mission);
     }
 
     private User findUser(Long userId) {

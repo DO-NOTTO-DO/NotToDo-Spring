@@ -12,5 +12,5 @@ public interface MissionService {
     List<MissionDto> getDailyMission(String today, Long userId);
     List<DailyMissionPercentageDto> getWeeklyMissionPercentage(String startDate, Long userId);
     List<MissionTitleDto> getRecentMissions(Long userId);
-    MissionCompletionStatusDto changeMissionCompletionStatus(Long missionId, Long userId);
+    MissionCompletionStatusDto changeMissionCompletionStatus(Long missionId, String completionStatus, Long userId);
 }
