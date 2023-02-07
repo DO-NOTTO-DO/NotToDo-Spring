@@ -66,6 +66,13 @@ public class MissionServiceImpl implements MissionService {
         return new MissionCompletionStatusDto(mission);
     }
 
+    @Override
+    public void deleteMission(Long missionId, Long userId) {
+        Mission mission = findMissionById(missionId);
+        validateUsersMission(mission, userId);
+        missionRepository.delete(mission);
+    }
+
     private User findUser(Long userId) {
         return userRepository.findById(userId).orElseThrow(
                 () -> new CustomException(ResponseCode.USER_NOT_FOUND)
