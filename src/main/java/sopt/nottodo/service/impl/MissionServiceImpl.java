@@ -57,10 +57,11 @@ public class MissionServiceImpl implements MissionService {
     }
 
     @Override
-    public MissionCompletionStatusDto changeMissionCompletionStatus(Long missionId, String completionStatus, Long userId) {
+    public MissionCompletionStatusDto changeMissionCompletionStatus(
+            Long missionId, CompletionStatus completionStatus, Long userId) {
         Mission mission = findMissionById(missionId);
         validateUsersMission(mission, userId);
-        mission.setCompletionStatus(CompletionStatus.from(completionStatus));
+        mission.setCompletionStatus(completionStatus);
         missionRepository.save(mission);
         return new MissionCompletionStatusDto(mission);
     }
