@@ -13,7 +13,7 @@ import java.util.Date;
 
 public class DateModule {
 
-    private static final Integer MONDAY = 1;
+    private static final Integer SUNDAY = 7;
     private static final String DATE_DASH_FORMAT = "yyyy-MM-dd";
 
     public static Date getToday(String today) {
@@ -29,8 +29,8 @@ public class DateModule {
         LocalDate localDate = dateToLocalDate(day);
         DayOfWeek dayOfWeek = localDate.getDayOfWeek();
         int dayOfWeekNumber = dayOfWeek.getValue();
-        if (dayOfWeekNumber != MONDAY) {
-            throw new CustomException(ResponseCode.NOT_MONDAY);
+        if (dayOfWeekNumber != SUNDAY) {
+            throw new CustomException(ResponseCode.NOT_SUNDAY);
         }
     }
 
