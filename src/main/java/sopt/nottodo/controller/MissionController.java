@@ -9,6 +9,7 @@ import sopt.nottodo.service.MissionService;
 import sopt.nottodo.util.response.ResponseCode;
 import sopt.nottodo.util.response.ResponseDataMessage;
 import sopt.nottodo.util.response.ResponseMessage;
+import sopt.nottodo.util.response.ResponseNonDataMessage;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -49,6 +50,15 @@ public class MissionController {
         return ResponseDataMessage.toResponseEntity(
                 ResponseCode.CHANGE_MISSION_COMPLETION_STATUS_SUCCESS,
                 missionService.changeMissionCompletionStatus(missionId, completionStatus, userId)
+        );
+    }
+
+    @DeleteMapping("/{missionId}")
+    public ResponseEntity<ResponseMessage> deleteMission(@PathVariable Long missionId, HttpServletRequest request) {
+        Long userId = Long.valueOf(request.getUserPrincipal().getName());
+        missionService.deleteMission(missionId, userId);
+        return ResponseNonDataMessage.toResponseEntity(
+                ResponseCode.DELETE_MISSON_SUCCESS
         );
     }
 

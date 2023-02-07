@@ -41,6 +41,7 @@ public enum ResponseCode {
     INVALID_COMPLETION_STATUS(HttpStatus.BAD_REQUEST, false, "유요하지 않는 완료 상태입니다."),
     NOT_USERS_MISSION(HttpStatus.BAD_REQUEST, false, "로그인한 유저의 낫투두가 아닙니다."),
     CHANGE_MISSION_COMPLETION_STATUS_SUCCESS(HttpStatus.CREATED, true, "낫투두 완료 여부 변경 성공"),
+    DELETE_MISSON_SUCCESS(HttpStatus.OK, true, "낫투두 삭제 성공"),
 
     // situation
     GET_SITUATIONS_SUCCESS(HttpStatus.OK, true, "상황 불러오기 성공"),
