@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class NotTodo extends TimeStamped {
+public class Goal extends TimeStamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +21,6 @@ public class NotTodo extends TimeStamped {
     @Column
     private String title;
 
-    @OneToMany(mappedBy = "notTodo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "goal", cascade = CascadeType.ALL)
     private List<Mission> missions = new ArrayList<>();
 }

@@ -22,6 +22,9 @@ public class Mission extends TimeStamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
+    private String title;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -31,19 +34,15 @@ public class Mission extends TimeStamped {
     private Situation situation;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "nottodo_id")
-    private NotTodo notTodo;
+    @JoinColumn(name = "goal_id")
+    private Goal goal;
 
     @Column
     @Enumerated(EnumType.STRING)
     private CompletionStatus completionStatus;
 
-    @Column
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date actionDate;
-
-    @Column
-    private String goal;
+    @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
+    private List<MissionDate> dates = new ArrayList<>();
 
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private List<Action> actions = new ArrayList<>();

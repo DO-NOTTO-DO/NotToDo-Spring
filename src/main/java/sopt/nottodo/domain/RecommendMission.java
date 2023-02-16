@@ -17,12 +17,17 @@ public class RecommendMission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "recommend_category_id")
-    private RecommendCategory recommendCategory;
-
     @Column(unique = true, nullable = false)
     private String title;
+
+    @Column(nullable = false)
+    private String situation;
+
+    @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = false)
+    private String image;
 
     @OneToMany(mappedBy = "recommendMission", cascade = CascadeType.ALL)
     private List<RecommendAction> recommendActions = new ArrayList<>();
