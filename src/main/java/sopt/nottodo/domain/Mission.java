@@ -37,12 +37,8 @@ public class Mission extends TimeStamped {
     @JoinColumn(name = "goal_id")
     private Goal goal;
 
-    @Column
-    @Enumerated(EnumType.STRING)
-    private CompletionStatus completionStatus;
-
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
-    private List<MissionDate> dates = new ArrayList<>();
+    private List<DailyMission> dates = new ArrayList<>();
 
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private List<Action> actions = new ArrayList<>();

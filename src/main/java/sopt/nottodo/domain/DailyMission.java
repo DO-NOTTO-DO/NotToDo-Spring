@@ -15,7 +15,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MissionDate extends TimeStamped {
+public class DailyMission extends TimeStamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,4 +28,8 @@ public class MissionDate extends TimeStamped {
     @Column
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private CompletionStatus completionStatus;
 }
