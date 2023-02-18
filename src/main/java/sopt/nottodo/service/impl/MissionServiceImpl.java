@@ -27,11 +27,11 @@ public class MissionServiceImpl implements MissionService {
     private final UserRepository userRepository;
 
     @Override
-    public List<MissionDto> getDailyMission(String today, Long userId) {
+    public List<DailyMissionDto> getDailyMission(String today, Long userId) {
         User user = findUser(userId);
         List<Mission> missions = missionRepository.findByUserAndActionDate(user, DateModule.getToday(today));
         return missions.stream()
-                .map(MissionDto::new)
+                .map(DailyMissionDto::new)
                 .collect(Collectors.toUnmodifiableList());
     }
 
