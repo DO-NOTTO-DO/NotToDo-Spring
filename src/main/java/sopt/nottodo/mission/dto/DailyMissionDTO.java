@@ -1,21 +1,19 @@
 package sopt.nottodo.mission.dto;
 
-import lombok.Getter;
 import sopt.nottodo.mission.domain.CompletionStatus;
 import sopt.nottodo.mission.domain.DailyMission;
 
-@Getter
-public class DailyMissionDto {
+public class DailyMissionDTO {
 
     private final Long id;
     private final String title;
+    private final String situationName;
     private final CompletionStatus completionStatus;
-    private final String situation;
 
-    public DailyMissionDto(DailyMission dailyMission) {
+    public DailyMissionDTO(DailyMission dailyMission) {
         this.id = dailyMission.getMission().getId();
         this.title = dailyMission.getMission().getTitle();
+        this.situationName = dailyMission.getMission().getSituation().getName();
         this.completionStatus = dailyMission.getCompletionStatus();
-        this.situation = dailyMission.getMission().getSituation().getName();
     }
 }
