@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import sopt.nottodo.auth.domain.User;
 import sopt.nottodo.common.domain.TimeStamped;
-import sopt.nottodo.domain.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;

@@ -11,6 +11,6 @@ public class MissionTitleDto {
     private final String title;
 
     public MissionTitleDto(Mission mission) {
-        this.title = mission.getNotTodo().getTitle();
+        this.title = mission.getTitle();
     }
 }

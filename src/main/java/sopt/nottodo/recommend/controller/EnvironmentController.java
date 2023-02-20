@@ -19,13 +19,13 @@ public class EnvironmentController {
 
     private final EnvironmentService environmentService;
 
-    @GetMapping("/category")
-    public ResponseEntity<ResponseMessage> getCategory() {
-        return ResponseDataMessage.toResponseEntity(
-                ResponseCode.GET_RECOMMEND_CATEGORY_SUCCESS,
-                environmentService.getCategory()
-        );
-    }
+//    @GetMapping("/category")
+//    public ResponseEntity<ResponseMessage> getCategory() {
+//        return ResponseDataMessage.toResponseEntity(
+//                ResponseCode.GET_RECOMMEND_CATEGORY_SUCCESS,
+//                environmentService.getCategory()
+//        );
+//    }
 
     @GetMapping("/{categoryId}")
     public ResponseEntity<ResponseMessage> getMissionByCategory(@PathVariable Long categoryId) {
