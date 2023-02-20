@@ -4,7 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import sopt.nottodo.common.ControllerTest;
-import sopt.nottodo.dto.auth.LoginRequest;
+import sopt.nottodo.auth.dto.LoginRequest;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

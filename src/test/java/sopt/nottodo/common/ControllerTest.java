@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import sopt.nottodo.auth.JwtTokenProvider;
-import sopt.nottodo.controller.AuthController;
-import sopt.nottodo.domain.FcmToken;
-import sopt.nottodo.domain.SocialType;
-import sopt.nottodo.domain.User;
-import sopt.nottodo.dto.auth.SignupRequest;
-import sopt.nottodo.service.AuthService;
-import sopt.nottodo.service.UserService;
+import sopt.nottodo.auth.support.JwtTokenProvider;
+import sopt.nottodo.auth.controller.AuthController;
+import sopt.nottodo.auth.domain.FcmToken;
+import sopt.nottodo.auth.domain.SocialType;
+import sopt.nottodo.auth.domain.User;
+import sopt.nottodo.auth.dto.SignupRequest;
+import sopt.nottodo.auth.service.AuthService;
+import sopt.nottodo.auth.service.UserService;
 
 import java.util.Optional;
 
