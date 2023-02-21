@@ -47,4 +47,12 @@ public class DateModule {
         calendar.add(Calendar.DATE, 7);
         return calendar.getTime();
     }
+
+    public static Date getNextDay(Date date) {
+        LocalDate localDate = dateToLocalDate(date);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(localDate.getYear(), localDate.getMonthValue() - 1, localDate.getDayOfMonth(), 0, 0, 0);
+        calendar.add(Calendar.DATE, 1);
+        return calendar.getTime();
+    }
 }

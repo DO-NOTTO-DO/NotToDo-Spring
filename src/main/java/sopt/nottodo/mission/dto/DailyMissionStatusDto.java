@@ -1,7 +1,9 @@
 package sopt.nottodo.mission.dto;
 
+import lombok.Getter;
 import sopt.nottodo.mission.domain.CompletionStatus;
 
+@Getter
 public class DailyMissionStatusDto {
 
     private final String actionDate;
