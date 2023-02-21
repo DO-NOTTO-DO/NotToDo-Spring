@@ -2,13 +2,11 @@ package sopt.nottodo.mission.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sopt.nottodo.common.util.response.ResponseCode;
 import sopt.nottodo.common.util.response.ResponseDataMessage;
 import sopt.nottodo.common.util.response.ResponseMessage;
+import sopt.nottodo.common.util.response.ResponseNonDataMessage;
 import sopt.nottodo.mission.service.MissionService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +33,15 @@ public class MissionController {
         return ResponseDataMessage.toResponseEntity(
                 ResponseCode.GET_WEEKLY_MISSIONS_SUCCESS,
                 missionService.getWeeklyMission(startDate, userId)
+        );
+    }
+
+    @DeleteMapping("/{missionId}")
+    public ResponseEntity<ResponseMessage> deleteMission(@PathVariable Long missionId, HttpServletRequest request) {
+        Long userId = Long.valueOf(request.getUserPrincipal().getName());
+        missionService.deleteMission(missionId, userId);
+        return ResponseNonDataMessage.toResponseEntity(
+                ResponseCode.DELETE_MISSON_SUCCESS
         );
     }
 }
