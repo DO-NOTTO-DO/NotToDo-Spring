@@ -28,4 +28,13 @@ public class MissionController {
                 missionService.getDailyMission(date, userId)
         );
     }
+
+    @GetMapping("/week/{startDate}")
+    public ResponseEntity<ResponseMessage> getWeeklyMission(@PathVariable String startDate, HttpServletRequest request) {
+        Long userId = Long.valueOf(request.getUserPrincipal().getName());
+        return ResponseDataMessage.toResponseEntity(
+                ResponseCode.GET_WEEKLY_MISSIONS_SUCCESS,
+                missionService.getWeeklyMission(startDate, userId)
+        );
+    }
 }
