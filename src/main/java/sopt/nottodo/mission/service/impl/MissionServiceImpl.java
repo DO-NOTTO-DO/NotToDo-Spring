@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import sopt.nottodo.auth.domain.User;
 import sopt.nottodo.mission.domain.CompletionStatus;
 import sopt.nottodo.mission.domain.DailyMission;
+import sopt.nottodo.mission.domain.Mission;
 import sopt.nottodo.mission.dto.*;
 import sopt.nottodo.mission.repository.DailyMissionRepository;
 import sopt.nottodo.mission.repository.MissionRepository;
@@ -61,6 +62,22 @@ public class MissionServiceImpl implements MissionService {
 //        return recentMissions;
 //    }
 //
+
+    @Override
+    public void deleteMission(Long missionId, Long userId) {
+        Mission mission = findMissionById(missionId);
+        validateUsersMission(mission, userId);
+        missionRepository.delete(mission);
+    }
+
+    private void validateUsersMission(Mission mission, Long userId) {
+        User user = findUser(userId);
+        User missionsUser = mission.getUser();
+        if (!user.equals(missionsUser)) {
+            throw new CustomException(ResponseCode.NOT_USERS_MISSION);
+        }
+    }
+
     private User findUser(Long userId) {
         return userRepository.findById(userId).orElseThrow(
                 () -> new CustomException(ResponseCode.USER_NOT_FOUND)
@@ -104,5 +121,10 @@ public class MissionServiceImpl implements MissionService {
             return CompletionStatus.NOTYET;
         }
         return CompletionStatus.AMBIGUOUS;
+    }
+
+    private Mission findMissionById(Long missionId) {
+        return missionRepository.findById(missionId)
+                .orElseThrow(() -> new CustomException(ResponseCode.MISSION_ID_NOT_FOUND));
     }
 }

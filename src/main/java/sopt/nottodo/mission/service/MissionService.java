@@ -8,6 +8,9 @@ import java.util.List;
 public interface MissionService {
 
     List<DailyMissionDTO> getDailyMission(String today, Long userId);
+
     List<DailyMissionStatusDto> getWeeklyMission(String startDate, Long userId);
-//    List<MissionTitleDto> getRecentMissions(Long userId);
+
+    //    List<MissionTitleDto> getRecentMissions(Long userId);
+    void deleteMission(Long missionId, Long userId);
 }
