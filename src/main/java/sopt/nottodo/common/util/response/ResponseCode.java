@@ -34,15 +34,17 @@ public enum ResponseCode {
     // mission
     INVALID_DATE_FORMAT(HttpStatus.BAD_REQUEST, false, "올바르지 않은 날짜 형식입니다."),
     GET_DAILY_MISSIONS_SUCCESS(HttpStatus.OK, true, "일일 낫투두 조회 성공"),
-
+    NOT_USERS_MISSION(HttpStatus.BAD_REQUEST, false, "로그인한 유저의 낫투두가 아닙니다."),
     GET_RECENT_MISSIONS_SUCCESS(HttpStatus.OK, true, "최근 사용 낫투두 기록 불러오기 성공"),
-    NOT_MONDAY(HttpStatus.BAD_REQUEST, false, "주의 시작 일자는 월요일입니다."),
-    GET_WEEKLY_MISSIONS_PERCENTAGE_SUCCESS(HttpStatus.OK, true, "주간 낫투두 성취도 조회 성공"),
+    NOT_SUNDAY(HttpStatus.BAD_REQUEST, false, "주의 시작 일자는 일요일입니다."),
+    GET_WEEKLY_MISSIONS_SUCCESS(HttpStatus.OK, true, "주간 낫투두 성취도 조회 성공"),
     INVALID_COMPLETION_STATUS(HttpStatus.BAD_REQUEST, false, "유요하지 않는 완료 상태입니다."),
+    GET_RECOMMEND_CATEGORY_SUCCESS(HttpStatus.OK, true, "추천 카테고리 조회 성공"),
+    MISSION_ID_NOT_FOUND(HttpStatus.BAD_REQUEST, false, "존재하지 않는 낫투두 id 입니다."),
+    DELETE_MISSON_SUCCESS(HttpStatus.OK, true, "낫투두 삭제 성공"),
 
     // situation
-    GET_RECOMMEND_SITUATIONS_SUCCESS(HttpStatus.OK, true, "추천 상황 키워드 불러오기 성공"),
-    GET_RECOMMEND_CATEGORY_SUCCESS(HttpStatus.OK, true, "추천 카테고리 조회 성공");
+    GET_RECOMMEND_SITUATIONS_SUCCESS(HttpStatus.OK, true, "추천 상황 키워드 불러오기 성공");
 
     private final HttpStatus httpStatus;
     private final Boolean success;

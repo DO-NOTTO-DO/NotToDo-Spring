@@ -13,7 +13,7 @@ import java.util.Date;
 
 public class DateModule {
 
-    private static final Integer MONDAY = 1;
+    private static final Integer SUNDAY = 0;
     private static final String DATE_DASH_FORMAT = "yyyy-MM-dd";
 
     public static Date getToday(String today) {
@@ -25,12 +25,12 @@ public class DateModule {
         }
     }
 
-    public static void validateMonday(Date day) {
+    public static void validateSunday(Date day) {
         LocalDate localDate = dateToLocalDate(day);
         DayOfWeek dayOfWeek = localDate.getDayOfWeek();
         int dayOfWeekNumber = dayOfWeek.getValue();
-        if (dayOfWeekNumber != MONDAY) {
-            throw new CustomException(ResponseCode.NOT_MONDAY);
+        if (dayOfWeekNumber != SUNDAY) {
+            throw new CustomException(ResponseCode.NOT_SUNDAY);
         }
     }
 
@@ -45,6 +45,14 @@ public class DateModule {
         Calendar calendar = Calendar.getInstance();
         calendar.set(localDate.getYear(), localDate.getMonthValue() - 1, localDate.getDayOfMonth(), 0, 0, 0);
         calendar.add(Calendar.DATE, 7);
+        return calendar.getTime();
+    }
+
+    public static Date getNextDay(Date date) {
+        LocalDate localDate = dateToLocalDate(date);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(localDate.getYear(), localDate.getMonthValue() - 1, localDate.getDayOfMonth(), 0, 0, 0);
+        calendar.add(Calendar.DATE, 1);
         return calendar.getTime();
     }
 }

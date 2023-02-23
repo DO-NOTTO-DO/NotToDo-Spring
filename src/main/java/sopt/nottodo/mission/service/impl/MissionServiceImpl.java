@@ -2,9 +2,10 @@ package sopt.nottodo.mission.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import sopt.nottodo.auth.domain.User;
+import sopt.nottodo.mission.domain.CompletionStatus;
 import sopt.nottodo.mission.domain.DailyMission;
 import sopt.nottodo.mission.domain.Mission;
-import sopt.nottodo.auth.domain.User;
 import sopt.nottodo.mission.dto.*;
 import sopt.nottodo.mission.repository.DailyMissionRepository;
 import sopt.nottodo.mission.repository.MissionRepository;
@@ -14,16 +15,17 @@ import sopt.nottodo.common.util.DateModule;
 import sopt.nottodo.common.util.exception.CustomException;
 import sopt.nottodo.common.util.response.ResponseCode;
 
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class MissionServiceImpl implements MissionService {
+
+    private static final int DAY_COUNT_OF_WEEK = 7;
 
     private final MissionRepository missionRepository;
     private final DailyMissionRepository dailyMissionRepository;
@@ -38,26 +40,17 @@ public class MissionServiceImpl implements MissionService {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-
-//    @Override
-//    public List<DailyMissionDto> getDailyMission(String today, Long userId) {
-//        User user = findUser(userId);
-//        List<Mission> missions = missionRepository.findByUserAndActionDate(user, DateModule.getToday(today));
-//        return missions.stream()
-//                .map(DailyMissionDto::new)
-//                .collect(Collectors.toUnmodifiableList());
-//    }
-//
-//    @Override
-//    public List<DailyMissionPercentageDto> getWeeklyMissionPercentage(String startDate, Long userId) {
-//        User user = findUser(userId);
-//        Date startDay = DateModule.getToday(startDate);
-//        DateModule.validateMonday(startDay);
-//        Date finishDay = DateModule.getWeekAfter(startDay);
-//        List<MissionCompletionStatusDto> missions
-//                = missionRepository.findByUserAndActionDateRange(user, startDay, finishDay);
-//        return calculateWeeklyMissionPercentage(missions);
-//    }
+    @Override
+    public List<DailyMissionStatusDto> getWeeklyMission(String startDate, Long userId) {
+        User user = findUser(userId);
+        Date startDay = DateModule.getToday(startDate);
+        DateModule.validateSunday(startDay);
+        Date finishDay = DateModule.getWeekAfter(startDay);
+        List<DailyMission> missions = dailyMissionRepository.findByDateBetween(startDay, finishDay).stream()
+                .filter(dailyMission -> dailyMission.getMission().getUser().equals(user))
+                .collect(Collectors.toUnmodifiableList());
+        return makeWeeklyMissionStatusDto(missions, startDay);
+    }
 //
 //    @Override
 //    public List<MissionTitleDto> getRecentMissions(Long userId) {
@@ -69,35 +62,69 @@ public class MissionServiceImpl implements MissionService {
 //        return recentMissions;
 //    }
 //
+
+    @Override
+    public void deleteMission(Long missionId, Long userId) {
+        Mission mission = findMissionById(missionId);
+        validateUsersMission(mission, userId);
+        missionRepository.delete(mission);
+    }
+
+    private void validateUsersMission(Mission mission, Long userId) {
+        User user = findUser(userId);
+        User missionsUser = mission.getUser();
+        if (!user.equals(missionsUser)) {
+            throw new CustomException(ResponseCode.NOT_USERS_MISSION);
+        }
+    }
+
     private User findUser(Long userId) {
         return userRepository.findById(userId).orElseThrow(
                 () -> new CustomException(ResponseCode.USER_NOT_FOUND)
         );
     }
-//
-//    private List<DailyMissionPercentageDto> calculateWeeklyMissionPercentage(List<MissionCompletionStatusDto> missions) {
-//        Map<Date, DailyMissionPercentageCalculateDto> dailyMissions = makeDailyMissionPercentageCalculateDto(missions);
-//        addMissionPoints(missions, dailyMissions);
-//        return dailyMissions.values().stream()
-//                .map(DailyMissionPercentageCalculateDto::convertToResponse)
-//                .sorted(Comparator.comparing(DailyMissionPercentageDto::getActionDate))
-//                .collect(Collectors.toUnmodifiableList());
-//    }
-//
-//    private Map<Date, DailyMissionPercentageCalculateDto> makeDailyMissionPercentageCalculateDto(List<MissionCompletionStatusDto> missions) {
-//        Map<Date, DailyMissionPercentageCalculateDto> dailyMissions = new LinkedHashMap<>();
-//        missions.stream()
-//                .collect(Collectors.groupingByConcurrent(MissionCompletionStatusDto::getActionDate))
-//                .forEach((key, value) -> {
-//                    dailyMissions.put(key, new DailyMissionPercentageCalculateDto(key, value.size()));
-//                });
-//        return dailyMissions;
-//    }
-//
-//    private void addMissionPoints(List<MissionCompletionStatusDto> missions, Map<Date, DailyMissionPercentageCalculateDto> dailyMissions) {
-//        missions.forEach(mission -> {
-//            float point = mission.getCompletionStatus().getPoint();
-//            dailyMissions.get(mission.getActionDate()).addPoint(point);
-//        });
-//    }
+
+    private List<DailyMissionStatusDto> makeWeeklyMissionStatusDto(List<DailyMission> dailyMissions, final Date startDay) {
+        List<List<DailyMission>> weeklyMissions = new ArrayList<>(DAY_COUNT_OF_WEEK);
+        dailyMissions.forEach(dailyMission -> {
+            int dayDiff = (int) getDaysDiff(dailyMission.getDate(), startDay);
+            weeklyMissions.get(dayDiff).add(dailyMission);
+        });
+
+        List<DailyMissionStatusDto> result = new ArrayList<>();
+        Date tempDate = startDay;
+        for (List<DailyMission> missionsOfDay : weeklyMissions) {
+            CompletionStatus completionStatus = getDailyCompletionStatus(missionsOfDay);
+            String actionDate = tempDate.toString().substring(0, 10);
+            tempDate = DateModule.getNextDay(startDay);
+            result.add(new DailyMissionStatusDto(actionDate, completionStatus));
+        }
+
+        return result;
+    }
+
+    private long getDaysDiff(Date target, Date standard) {
+        long secDiff = (target.getTime() - standard.getTime()) / 1000;
+        return secDiff / (24 * 60 * 60);
+    }
+
+    private CompletionStatus getDailyCompletionStatus(List<DailyMission> dailyMissions) {
+        long finishCount = dailyMissions.stream()
+                .filter(dailyMission -> dailyMission.getCompletionStatus().equals(CompletionStatus.FINISH))
+                .count();
+        long notYetCount = dailyMissions.stream()
+                .filter(dailyMission -> dailyMission.getCompletionStatus().equals(CompletionStatus.NOTYET))
+                .count();
+        if (notYetCount == 0 && finishCount != 0) {
+            return CompletionStatus.FINISH;
+        } else if (notYetCount != 0 && finishCount == 0) {
+            return CompletionStatus.NOTYET;
+        }
+        return CompletionStatus.AMBIGUOUS;
+    }
+
+    private Mission findMissionById(Long missionId) {
+        return missionRepository.findById(missionId)
+                .orElseThrow(() -> new CustomException(ResponseCode.MISSION_ID_NOT_FOUND));
+    }
 }

@@ -11,4 +11,5 @@ import java.util.List;
 public interface DailyMissionRepository extends JpaRepository<DailyMission, Long> {
 
     List<DailyMission> findByDate(Date date);
+    List<DailyMission> findByDateBetween(Date startDate, Date lastDate);
 }
