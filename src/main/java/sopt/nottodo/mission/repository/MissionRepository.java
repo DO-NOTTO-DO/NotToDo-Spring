@@ -2,10 +2,15 @@ package sopt.nottodo.mission.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import sopt.nottodo.auth.domain.User;
 import sopt.nottodo.mission.domain.Mission;
+
+import java.util.List;
 
 @Repository
 public interface MissionRepository extends JpaRepository<Mission, Long> {
+
+    List<Mission> findByUserOrderByCreatedAtDesc(User user);
 
     //select daily_mission.id, mission.id, mission.title, daily_mission.date, completion_status, situation_id
     //from mission, daily_mission

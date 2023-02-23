@@ -51,17 +51,17 @@ public class MissionServiceImpl implements MissionService {
                 .collect(Collectors.toUnmodifiableList());
         return makeWeeklyMissionStatusDto(missions, startDay);
     }
-//
-//    @Override
-//    public List<MissionTitleDto> getRecentMissions(Long userId) {
-//        User user = findUser(userId);
-//        List<MissionTitleDto> recentMissions = missionRepository.findByUserOrderByCreatedAtDesc(user).stream()
-//                .map(MissionTitleDto::new)
-//                .distinct()
-//                .collect(Collectors.toUnmodifiableList());
-//        return recentMissions;
-//    }
-//
+
+    @Override
+    public List<MissionTitleDto> getRecentMissions(Long userId) {
+        User user = findUser(userId);
+        List<MissionTitleDto> recentMissions = dailyMissionRepository.findByOrderByCreatedAtDesc().stream()
+                .filter(dailyMission -> dailyMission.getMission().getUser().equals(user))
+                .map(dailyMission -> new MissionTitleDto(dailyMission.getMission()))
+                .distinct()
+                .collect(Collectors.toUnmodifiableList());
+        return recentMissions;
+    }
 
     @Override
     public void deleteMission(Long missionId, Long userId) {

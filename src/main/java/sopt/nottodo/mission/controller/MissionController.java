@@ -1,6 +1,7 @@
 package sopt.nottodo.mission.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sopt.nottodo.common.util.response.ResponseCode;
@@ -42,6 +43,15 @@ public class MissionController {
         missionService.deleteMission(missionId, userId);
         return ResponseNonDataMessage.toResponseEntity(
                 ResponseCode.DELETE_MISSON_SUCCESS
+        );
+    }
+
+    @GetMapping("/recent")
+    public ResponseEntity<ResponseMessage> getRecentMission(HttpServletRequest request) {
+        Long userId = Long.valueOf(request.getUserPrincipal().getName());
+        return ResponseDataMessage.toResponseEntity(
+                ResponseCode.GET_RECENT_MISSIONS_SUCCESS,
+                missionService.getRecentMissions(userId)
         );
     }
 }
