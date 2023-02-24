@@ -55,12 +55,11 @@ public class MissionServiceImpl implements MissionService {
     @Override
     public List<MissionTitleDto> getRecentMissions(Long userId) {
         User user = findUser(userId);
-        List<MissionTitleDto> recentMissions = dailyMissionRepository.findByOrderByCreatedAtDesc().stream()
+        return dailyMissionRepository.findByOrderByCreatedAtDesc().stream()
                 .filter(dailyMission -> dailyMission.getMission().getUser().equals(user))
                 .map(dailyMission -> new MissionTitleDto(dailyMission.getMission()))
                 .distinct()
                 .collect(Collectors.toUnmodifiableList());
-        return recentMissions;
     }
 
     @Override
