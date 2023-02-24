@@ -44,7 +44,7 @@ public enum ResponseCode {
     DELETE_MISSON_SUCCESS(HttpStatus.OK, true, "낫투두 삭제 성공"),
 
     // situation
-    GET_SITUATIONS_SUCCESS(HttpStatus.OK, true, "상황 불러오기 성공");
+    GET_RECOMMEND_SITUATIONS_SUCCESS(HttpStatus.OK, true, "추천 상황 키워드 불러오기 성공");
 
     private final HttpStatus httpStatus;
     private final Boolean success;
