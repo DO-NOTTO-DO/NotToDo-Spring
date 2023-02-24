@@ -1,11 +1,10 @@
 package sopt.nottodo.recommend.service;
 
-import sopt.nottodo.mission.dto.DailyMissionDTO;
-import sopt.nottodo.recommend.dto.SituationDto;
+import sopt.nottodo.recommend.dto.RecommendSituationDto;
 
 import java.util.List;
 
 public interface RecommendService {
 
-    List<SituationDto> getRecommendSituation();
+    List<RecommendSituationDto> getRecommendSituation();
 }

@@ -3,11 +3,11 @@ package sopt.nottodo.recommend.dto;
 import lombok.Getter;
 
 @Getter
-public class SituationDto {
+public class RecommendSituationDto {
 
     private final String name;
 
-    public SituationDto(String name) {
+    public RecommendSituationDto(String name) {
         this.name = name;
     }
 }
