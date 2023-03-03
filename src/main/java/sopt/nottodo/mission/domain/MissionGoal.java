@@ -3,10 +3,10 @@ package sopt.nottodo.mission.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import sopt.nottodo.auth.domain.User;
 import sopt.nottodo.common.domain.TimeStamped;
 
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,22 +16,22 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Mission extends TimeStamped {
+public class MissionGoal extends TimeStamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
-    private String title;
-
-    @Column
-    private String situation;
+    private String goal;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "mission_id")
+    private Mission mission;
 
-    @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
-    private List<MissionGoal> missionGoals = new ArrayList<>();
+    @OneToMany(mappedBy = "missionGoal", cascade = CascadeType.ALL)
+    private List<DailyMission> dailyMissions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "missionGoal", cascade = CascadeType.ALL)
+    private List<Action> actions = new ArrayList<>();
 }

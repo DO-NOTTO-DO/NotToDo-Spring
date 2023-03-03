@@ -19,10 +19,10 @@ public class Action extends TimeStamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "mission_id")
-    private Mission mission;
-
    @Column
     private String name;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "mission_goal_id")
+    private MissionGoal missionGoal;
 }
