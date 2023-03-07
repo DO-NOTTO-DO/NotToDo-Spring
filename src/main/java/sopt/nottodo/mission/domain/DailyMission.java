@@ -22,10 +22,6 @@ public class DailyMission extends TimeStamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "mission_id")
-    private Mission mission;
-
     @Column
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
@@ -33,4 +29,8 @@ public class DailyMission extends TimeStamped {
     @Column
     @Enumerated(EnumType.STRING)
     private CompletionStatus completionStatus;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "mission_goal_id")
+    private MissionGoal missionGoal;
 }
